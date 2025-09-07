@@ -33,10 +33,14 @@ export default function Chat() {
 
   // Sistema de reinicio global cada 30 minutos
   useEffect(() => {
+    console.log('🕐 Iniciando sistema de reinicio automático...');
+    
     // Calcular el próximo reinicio basado en intervalos fijos de 30 minutos
     const now = new Date();
     const currentMinutes = now.getMinutes();
     const currentSeconds = now.getSeconds();
+    
+    console.log(`⏰ Hora actual: ${now.toLocaleTimeString()}`);
     
     // Próximo reinicio será a los minutos 0 o 30 de la hora
     let nextResetMinutes;
@@ -49,12 +53,15 @@ export default function Chat() {
     const resetTime = new Date(now);
     resetTime.setMinutes(nextResetMinutes, 0, 0); // Establecer segundos y milisegundos a 0
     
+    console.log(`⏰ Próximo reinicio programado para: ${resetTime.toLocaleTimeString()}`);
+    
     const updateTimer = () => {
       const now = new Date();
       const diff = resetTime.getTime() - now.getTime();
       
       if (diff <= 0) {
-        setTimeLeft('Chat reiniciado');
+        console.log('🔄 ¡Tiempo de reinicio alcanzado! Ejecutando clearAllMessages...');
+        setTimeLeft('Reiniciando...');
         clearAllMessages();
         return;
       }
@@ -64,9 +71,10 @@ export default function Chat() {
       
       setTimeLeft(`${minutes}:${seconds.toString().padStart(2, '0')}`);
 
-      // Sistema de avisos globales
+      // Sistema de avisos globales mejorado
       // Aviso a los 5 minutos
-      if (diff <= 5 * 60 * 1000 && diff > 5 * 60 * 1000 - 2000) {
+      if (diff <= 5 * 60 * 1000 && diff > 5 * 60 * 1000 - 1000) {
+        console.log('⚠️ Aviso de 5 minutos activado');
         toast.warning('⚠️ El chat se reiniciará en 5 minutos', {
           duration: 5000,
           id: 'warning-5min'
@@ -74,7 +82,8 @@ export default function Chat() {
       }
       
       // Aviso a los 3 minutos
-      if (diff <= 3 * 60 * 1000 && diff > 3 * 60 * 1000 - 2000) {
+      if (diff <= 3 * 60 * 1000 && diff > 3 * 60 * 1000 - 1000) {
+        console.log('⚠️ Aviso de 3 minutos activado');
         toast.warning('⚠️ El chat se reiniciará en 3 minutos', {
           duration: 5000,
           id: 'warning-3min'
@@ -82,7 +91,8 @@ export default function Chat() {
       }
       
       // Aviso a 1 minuto
-      if (diff <= 1 * 60 * 1000 && diff > 1 * 60 * 1000 - 2000) {
+      if (diff <= 1 * 60 * 1000 && diff > 1 * 60 * 1000 - 1000) {
+        console.log('🚨 Aviso de 1 minuto activado');
         toast.error('🚨 El chat se reiniciará en 1 minuto', {
           duration: 10000,
           id: 'warning-1min'
@@ -95,6 +105,7 @@ export default function Chat() {
         setCountdown(secondsLeft);
         
         if (secondsLeft === 30) {
+          console.log('🚨 Iniciando cuenta regresiva final de 30 segundos');
           toast.error('🚨 REINICIO GLOBAL: Chat reiniciándose en 30 segundos...', {
             duration: 30000,
             id: 'countdown-final'
@@ -108,8 +119,11 @@ export default function Chat() {
     updateTimer();
     const interval = setInterval(updateTimer, 1000);
 
-    return () => clearInterval(interval);
-  }, [clearAllMessages]); // Removemos la dependencia de messages
+    return () => {
+      console.log('🔄 Limpiando timer de reinicio automático');
+      clearInterval(interval);
+    };
+  }, [clearAllMessages]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();

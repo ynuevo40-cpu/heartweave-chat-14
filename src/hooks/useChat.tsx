@@ -145,21 +145,43 @@ export const useChat = () => {
   };
 
   const clearAllMessages = async () => {
-    if (!user) return;
-
     try {
+      console.log('🔄 Iniciando reinicio automático del chat...');
+      
       const { error } = await supabase
         .from('messages')
         .delete()
         .gte('created_at', '1970-01-01T00:00:00Z'); // Delete all messages
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error al eliminar mensajes:', error);
+        throw error;
+      }
       
+      console.log('✅ Chat reiniciado exitosamente');
       setMessages([]);
-      toast.success('Chat reiniciado - Todos los mensajes han sido eliminados');
+      toast.success('🔄 Chat reiniciado - Todos los mensajes han sido eliminados');
     } catch (error: any) {
-      console.error('Error clearing all messages:', error);
-      toast.error('Error al reiniciar el chat');
+      console.error('❌ Error clearing all messages:', error);
+      toast.error('Error al reiniciar el chat - Reintentando...');
+      
+      // Retry once after 2 seconds
+      setTimeout(async () => {
+        try {
+          const { error: retryError } = await supabase
+            .from('messages')
+            .delete()
+            .gte('created_at', '1970-01-01T00:00:00Z');
+          
+          if (!retryError) {
+            console.log('✅ Chat reiniciado exitosamente (segundo intento)');
+            setMessages([]);
+            toast.success('🔄 Chat reiniciado exitosamente');
+          }
+        } catch (retryErr) {
+          console.error('❌ Segundo intento fallido:', retryErr);
+        }
+      }, 2000);
     }
   };
 
