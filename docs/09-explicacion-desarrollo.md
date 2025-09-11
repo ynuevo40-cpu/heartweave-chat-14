@@ -148,6 +148,77 @@ graph LR
 - 🏅 4 niveles de rareza de banners (común a legendario)
 - 📊 Tracking preciso de logros y progreso
 - 🎨 Personalización visual atractiva
+- 🎁 **Sistema de recompensas automáticas por actividades diarias**
+
+#### 3.1.1 Sistema de Recompensas Automáticas - Implementación Técnica
+
+**Arquitectura del Sistema:**
+```typescript
+// src/hooks/useActivityRewards.tsx
+interface ActivityReward {
+  type: 'daily_login' | 'first_message' | 'profile_visit' | 'banner_equip';
+  hearts: number;
+  description: string;
+}
+
+const ACTIVITY_REWARDS: Record<string, ActivityReward> = {
+  daily_login: { type: 'daily_login', hearts: 10, description: 'Iniciar sesión diariamente' },
+  first_message: { type: 'first_message', hearts: 5, description: 'Primer mensaje del día' },
+  profile_visit: { type: 'profile_visit', hearts: 2, description: 'Visitar un perfil' },
+  banner_equip: { type: 'banner_equip', hearts: 3, description: 'Equipar un banner' }
+};
+```
+
+**Lógica de Control Diario:**
+```typescript
+// Prevención de duplicados diarios usando localStorage
+const today = new Date().toDateString();
+const storageKey = `reward_${activityType}_${today}_${user.id}`;
+
+if (localStorage.getItem(storageKey)) {
+  return; // Ya fue recompensado hoy
+}
+
+// Marcar como recompensado después del éxito
+localStorage.setItem(storageKey, 'true');
+```
+
+**Integración con Supabase:**
+```typescript
+// Actualización atómica de corazones
+const { data: profileData } = await supabase
+  .from('profiles')
+  .select('hearts_count')
+  .eq('user_id', user.id)
+  .single();
+
+const newHeartsCount = (profileData?.hearts_count || 0) + reward.hearts;
+
+await supabase
+  .from('profiles')
+  .update({ hearts_count: newHeartsCount })
+  .eq('user_id', user.id);
+```
+
+**Sistema de Notificaciones:**
+```typescript
+// Feedback inmediato al usuario con sonner
+toast.success(`+${reward.hearts} corazones por ${reward.description}! 💝`, {
+  duration: 3000
+});
+```
+
+**Puntos de Activación en el Código:**
+- **Daily Login**: `useEffect` automático en `useActivityRewards` cuando `user` existe
+- **First Message**: Llamada en `sendMessage` del hook `useChat`
+- **Profile Visit**: Activación en componente `Profile` al cargar
+- **Banner Equip**: Trigger en `BannerSettings` al equipar banner
+
+**Beneficios del Diseño:**
+- ✅ **Sin backend adicional**: Usa localStorage + Supabase existente
+- ✅ **Prevención de spam**: Control diario por actividad + usuario
+- ✅ **Experiencia fluida**: Recompensas automáticas sin interrumpir el flujo
+- ✅ **Escalable**: Fácil agregar nuevas actividades al sistema
 
 #### 3.2 Objetivos de Experiencia de Usuario
 

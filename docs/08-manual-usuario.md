@@ -133,6 +133,53 @@ H Chat es una plataforma moderna de comunicación en tiempo real que incorpora e
 - ✅ Puedes dar corazones ilimitados a diferentes usuarios
 - ✅ Los corazones contribuyen al desbloqueo de banners
 
+#### 4.4 Sistema de Recompensas Automáticas
+
+Además de los corazones que otros usuarios te pueden dar, **H Chat tiene un sistema automático de recompensas** que te otorga corazones por realizar ciertas actividades diarias:
+
+**Recompensas Disponibles:**
+
+```
+🌅 Inicio de Sesión Diario
+├── Recompensa: +10 corazones ❤️
+├── Frecuencia: Una vez por día
+└── Se activa: Automáticamente al entrar
+
+💬 Primer Mensaje del Día
+├── Recompensa: +5 corazones ❤️
+├── Frecuencia: Una vez por día
+└── Se activa: Al enviar tu primer mensaje
+
+👤 Visitar un Perfil
+├── Recompensa: +2 corazones ❤️
+├── Frecuencia: Una vez por día
+└── Se activa: Al hacer clic en cualquier perfil de usuario
+
+🎯 Equipar un Banner
+├── Recompensa: +3 corazones ❤️
+├── Frecuencia: Una vez por día
+└── Se activa: Al equipar cualquier banner en tu perfil
+```
+
+**Detalles Importantes:**
+- 🗓️ **Límite diario**: Cada recompensa solo se puede obtener **una vez por día**
+- ⏰ **Reset**: Las recompensas se reinician cada medianoche
+- 🎁 **Máximo diario**: Puedes ganar hasta **20 corazones extra** por actividades automáticas
+- 💝 **Notificaciones**: Recibirás una notificación cada vez que obtengas una recompensa
+- 🔄 **Progreso**: Estos corazones cuentan para desbloquear banners igual que los corazones de otros usuarios
+
+**Estrategia Recomendada:**
+1. 🌅 Entra todos los días para el bono de inicio de sesión (+10)
+2. 💬 Envía al menos un mensaje diario (+5)
+3. 👤 Visita perfiles de otros usuarios (+2)
+4. 🎯 Cambia tus banners equipados ocasionalmente (+3)
+5. ❤️ Participa en conversaciones para recibir corazones de otros usuarios
+
+**Total Potencial Diario:**
+- Recompensas automáticas: 20 corazones ❤️
+- Corazones de otros usuarios: Ilimitado ❤️
+- **Ejemplo**: Usuario muy activo puede ganar 30-50 corazones por día
+
 **Eliminando tus Mensajes:**
 1. Localiza tu propio mensaje en el chat
 2. Haz clic en el ícono de papelera 🗑️ (solo visible en tus mensajes)
