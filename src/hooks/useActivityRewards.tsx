@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { useOnboarding } from '@/hooks/useOnboarding';
 import { toast } from 'sonner';
 
 interface ActivityReward {
@@ -35,7 +34,6 @@ const ACTIVITY_REWARDS: Record<string, ActivityReward> = {
 
 export const useActivityRewards = () => {
   const { user } = useAuth();
-  const { triggerStep } = useOnboarding();
 
   const giveActivityReward = async (activityType: keyof typeof ACTIVITY_REWARDS) => {
     if (!user) return;
@@ -78,11 +76,6 @@ export const useActivityRewards = () => {
       toast.success(`+${reward.hearts} corazones por ${reward.description}! 💝`, {
         duration: 3000
       });
-
-      // Trigger onboarding steps
-      if (activityType === 'first_message') {
-        triggerStep('after_first_message');
-      }
 
     } catch (error) {
       console.error('Error giving activity reward:', error);

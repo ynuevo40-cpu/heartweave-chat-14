@@ -65,26 +65,16 @@ export const useUserBanners = () => {
 
       const unlockedBannerIds = new Set(userBannersData?.map(ub => ub.banner_id) || []);
 
-      // Combine data and detect newly unlocked banners
-      const combinedBanners: UserBanner[] = (bannersData || []).map(banner => {
-        const wasUnlocked = unlockedBannerIds.has(banner.id);
-        const isUnlocked = wasUnlocked || userHearts >= banner.hearts_required;
-        
-        // Auto-equip newly unlocked banners
-        if (isUnlocked && !wasUnlocked && userHearts >= banner.hearts_required) {
-          autoEquipBanner(banner.id);
-        }
-        
-        return {
-          id: banner.id,
-          emoji: banner.emoji,
-          name: banner.name,
-          rarity: banner.rarity as 'common' | 'rare' | 'epic' | 'legendary',
-          hearts_required: banner.hearts_required,
-          unlocked: isUnlocked,
-          unlocked_at: userBannersData?.find(ub => ub.banner_id === banner.id)?.unlocked_at
-        };
-      });
+      // Combine data
+      const combinedBanners: UserBanner[] = (bannersData || []).map(banner => ({
+        id: banner.id,
+        emoji: banner.emoji,
+        name: banner.name,
+        rarity: banner.rarity as 'common' | 'rare' | 'epic' | 'legendary',
+        hearts_required: banner.hearts_required,
+        unlocked: unlockedBannerIds.has(banner.id) || userHearts >= banner.hearts_required,
+        unlocked_at: userBannersData?.find(ub => ub.banner_id === banner.id)?.unlocked_at
+      }));
 
       setBanners(combinedBanners);
       
@@ -107,73 +97,6 @@ export const useUserBanners = () => {
   useEffect(() => {
     fetchUserBanners();
   }, [user]);
-
-  const autoEquipBanner = async (bannerId: string) => {
-    if (!user) return;
-
-    try {
-      // Get currently equipped banners
-      const { data: equippedBanners, error: equippedError } = await supabase
-        .from('equipped_banners')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('position');
-
-      if (equippedError) throw equippedError;
-
-      // If less than 2 banners equipped, just add the new one
-      if (!equippedBanners || equippedBanners.length < 2) {
-        const position = equippedBanners ? equippedBanners.length + 1 : 1;
-        
-        const { error: equipError } = await supabase
-          .from('equipped_banners')
-          .insert({
-            user_id: user.id,
-            banner_id: bannerId,
-            position
-          });
-
-        if (equipError) throw equipError;
-      } else {
-        // Replace the oldest equipped banner (position 1)
-        const { error: updateError } = await supabase
-          .from('equipped_banners')
-          .update({ banner_id: bannerId })
-          .eq('user_id', user.id)
-          .eq('position', 1);
-
-        if (updateError) throw updateError;
-      }
-
-      // Add to user_banners if not already there
-      const { error: userBannerError } = await supabase
-        .from('user_banners')
-        .upsert({
-          user_id: user.id,
-          banner_id: bannerId,
-          unlocked_at: new Date().toISOString()
-        }, {
-          onConflict: 'user_id,banner_id'
-        });
-
-      if (userBannerError) throw userBannerError;
-
-      // Get banner info for notification
-      const banner = (await supabase
-        .from('banners')
-        .select('name, emoji')
-        .eq('id', bannerId)
-        .single()).data;
-
-      if (banner) {
-        const { toast } = await import('sonner');
-        toast.success(`🎉 ¡Banner "${banner.name}" ${banner.emoji} desbloqueado y equipado automáticamente!`);
-      }
-
-    } catch (error: any) {
-      console.error('Error auto-equipping banner:', error);
-    }
-  };
 
   return {
     banners,

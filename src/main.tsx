@@ -1,11 +1,5 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import { OnboardingTooltip } from '@/components/OnboardingTooltip'
 import './index.css'
 
-createRoot(document.getElementById("root")!).render(
-  <>
-    <App />
-    <OnboardingTooltip />
-  </>
-);
+createRoot(document.getElementById("root")!).render(<App />);

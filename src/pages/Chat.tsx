@@ -10,8 +10,6 @@ import { AppLayout } from '@/components/layouts/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { useChat } from '@/hooks/useChat';
 import { useActivityRewards } from '@/hooks/useActivityRewards';
-import { useBackgroundSettings } from '@/hooks/useBackgroundSettings';
-import { useOnboarding } from '@/hooks/useOnboarding';
 import { toast } from 'sonner';
 
 export default function Chat() {
@@ -24,8 +22,6 @@ export default function Chat() {
   const { user } = useAuth();
   const { messages, loading, sendMessage, giveHeart, deleteMessage, clearAllMessages } = useChat();
   const { giveActivityReward } = useActivityRewards();
-  const { currentBackground } = useBackgroundSettings();
-  const { triggerStep } = useOnboarding();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -135,13 +131,11 @@ export default function Chat() {
     
     await sendMessage(newMessage);
     giveActivityReward('first_message');
-    triggerStep('after_first_message');
     setNewMessage('');
   };
 
   const handleGiveHeart = async (userId: string) => {
     await giveHeart(userId);
-    triggerStep('after_hearts');
   };
 
   const handleUserClick = (userId: string) => {
@@ -159,7 +153,7 @@ export default function Chat() {
 
   return (
     <AppLayout>
-      <div className={`flex flex-col h-screen max-w-4xl mx-auto ${currentBackground.className}`}>
+      <div className="flex flex-col h-screen max-w-4xl mx-auto">
         {/* Chat Header */}
         <div className="glass border-b border-border/50 p-3 md:p-4 shrink-0">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
@@ -360,7 +354,6 @@ export default function Chat() {
                 placeholder="Escribe tu mensaje..."
                 className="flex-1 bg-background-secondary border-border/50 h-10"
                 maxLength={500}
-                data-onboarding="message-input"
               />
             </div>
             <Button 
