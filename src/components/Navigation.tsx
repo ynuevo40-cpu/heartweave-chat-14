@@ -21,7 +21,7 @@ export const Navigation = () => {
     { path: '/', icon: Home, label: 'Inicio' },
     { path: '/chat', icon: MessageCircle, label: 'Chat' },
     { path: '/profile', icon: User, label: 'Perfil' },
-    { path: '/leaderboard', icon: Trophy, label: 'Rankings' },
+    { path: '/leaderboard', icon: Trophy, label: 'Tabla' },
     { path: '/banners', icon: Award, label: 'Banners' },
     { path: '/banner-settings', icon: Settings, label: 'Configuración de Banners' },
   ];
@@ -50,6 +50,12 @@ export const Navigation = () => {
                   "flex items-center gap-2 cursor-pointer",
                   location.pathname === path && "bg-gradient-primary text-white"
                 )}
+                data-onboarding={
+                  path === '/leaderboard' ? 'leaderboard-nav' :
+                  path === '/banners' ? 'banners-nav' :
+                  path === '/profile' ? 'profile-nav' :
+                  undefined
+                }
               >
                 <Icon className="h-4 w-4" />
                 {label}

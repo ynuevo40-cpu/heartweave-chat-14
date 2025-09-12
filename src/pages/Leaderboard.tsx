@@ -64,10 +64,10 @@ export default function Leaderboard() {
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-2">
               <BackButton />
-              <h1 className="text-2xl font-bold cyber-glow">Rankings Globales</h1>
+              <h1 className="text-2xl font-bold cyber-glow">🏆 Tabla de Popularidad</h1>
             </div>
             <p className="text-sm text-muted-foreground">
-              Los usuarios más populares de H Chat
+              ¡Descubre quiénes son los usuarios más populares y admirados!
             </p>
           </div>
         </div>
@@ -123,8 +123,8 @@ export default function Leaderboard() {
           <Card className="glass border-border/50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5" />
-                Tabla de Posiciones
+                <Trophy className="h-5 w-5 text-banner-legendary" />
+                🌟 Hall de la Fama
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">

@@ -9,9 +9,11 @@ import { AppLayout } from '@/components/layouts/AppLayout';
 import { EditDescriptionDialog } from '@/components/EditDescriptionDialog';
 import BackButton from '@/components/BackButton';
 import { Heart, Settings, Trophy, ArrowLeft, MessageCircle, Award } from 'lucide-react';
-import { useUserProfile } from '@/hooks/useUserProfile';
+import { BackgroundSelector } from '@/components/BackgroundSelector';
+import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { useUserBanners } from '@/hooks/useUserBanners';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserProfile } from '@/hooks/useUserProfile';
 import { heartService } from '@/services/heartService';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -327,7 +329,13 @@ export default function Profile() {
               )}
             </CardContent>
           </Card>
+
+          {/* Background Settings - Solo para el propio perfil */}
+          {isOwnProfile && <BackgroundSelector />}
         </div>
+
+        {/* Onboarding Tooltip */}
+        <OnboardingTooltip />
       </div>
     </AppLayout>
   );
