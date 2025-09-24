@@ -1,40 +1,39 @@
-# Welcome to your Lovable project
+# 🚀 Proyecto H Chat  
 
-## Project info
+## 📌 Información del proyecto  
 
-**URL**: https://lovable.dev/projects/cb82e7a6-8a22-4503-9673-a67ae0332578
+**URL del proyecto en línea**: [🌍 H Chat](https://h-chat-21.netlify.app/)  
+**Repositorio en Lovable**: [🔗 Ver en Lovable](https://lovable.dev/projects/cb82e7a6-8a22-4503-9673-a67ae0332578)  
 
-## How can I edit this code?
+Este proyecto fue creado y personalizado por **Heider Gonzalez** como parte de mi proceso de aprendizaje en **Ingeniería Informática**.  
+Mi objetivo es aplicar mis conocimientos en **desarrollo web, frontend y soporte técnico** para construir aplicaciones modernas y funcionales.  
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## ⚙️ Tecnologías utilizadas  
 
-Simply visit the [Heider Dev. Project](https://h-chat-21.netlify.app/) 
+- ⚡ **Vite** → Para un entorno de desarrollo rápido y eficiente.  
+- ⚛️ **React + TypeScript** → Creación de interfaces dinámicas y tipadas.  
+- 🎨 **Tailwind CSS** → Estilos modernos y personalizados.  
+- 🧩 **shadcn/ui** → Componentes reutilizables y elegantes.  
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## 💻 Cómo ejecutar el proyecto en local  
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 1. Clonar el repositorio
+git clone <TU_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Entrar a la carpeta del proyecto
+cd <NOMBRE_DEL_PROYECTO>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 3. Instalar dependencias
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. Ejecutar en modo desarrollo
 npm run dev
-```
+
 
 **Edit a file directly in GitHub**
 
