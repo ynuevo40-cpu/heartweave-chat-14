@@ -1,4 +1,4 @@
-# 🚀 Proyecto H Chat  
+# 👨‍💻🚀 Proyecto H Chat  ⚡
 
 ## 📌 Información del proyecto  
 
