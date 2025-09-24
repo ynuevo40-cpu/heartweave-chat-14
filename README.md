@@ -19,6 +19,18 @@ Mi objetivo es aplicar mis conocimientos en **desarrollo web, frontend y soporte
 
 ---
 
+🚀 Despliegue
+
+Este proyecto está publicado en Netlify:
+👉 H Chat en Netlify
+
+👤 Autor
+
+Heider Gonzalez
+📧 heider.gonzalez16@gmail.com
+
+💼 Estudiante de Ingeniería Informática – Corporación Universitaria Reformada
+🏆 Creativo, entusiasta del desarrollo y la tecnología.
 ## 💻 Cómo ejecutar el proyecto en local  
 
 ```sh
