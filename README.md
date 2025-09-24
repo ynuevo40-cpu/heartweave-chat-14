@@ -6,7 +6,7 @@
 **Repositorio en Lovable**: [🔗 Ver en Lovable](https://lovable.dev/projects/cb82e7a6-8a22-4503-9673-a67ae0332578)  
 
 Este proyecto fue creado y personalizado por **Heider Gonzalez** como parte de mi proceso de aprendizaje en **Ingeniería Informática**.  
-Mi objetivo es aplicar mis conocimientos en **desarrollo web, frontend y soporte técnico** para construir aplicaciones modernas y funcionales.  
+Mi objetivo es aplicar mis conocimientos en **desarrollo web, frontend y bakend** para construir aplicaciones modernas y funcionales a mano de mi creatividad.  
 
 ---
 
