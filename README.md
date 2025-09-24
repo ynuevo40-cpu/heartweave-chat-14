@@ -10,7 +10,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cb82e7a6-8a22-4503-9673-a67ae0332578) and start prompting.
+Simply visit the [Heider Dev. Project](https://h-chat-21.netlify.app/) 
 
 Changes made via Lovable will be committed automatically to this repo.
 
