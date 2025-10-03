@@ -19,7 +19,8 @@ export const Navigation = () => {
 
   const navItems = [
     { path: '/', icon: Home, label: 'Inicio' },
-    { path: '/chat', icon: MessageCircle, label: 'Chat' },
+    { path: '/communities', icon: MessageCircle, label: 'Comunidades' },
+    { path: '/chat', icon: MessageCircle, label: 'Chat Global' },
     { path: '/profile', icon: User, label: 'Perfil' },
     { path: '/leaderboard', icon: Trophy, label: 'Rankings' },
     { path: '/banners', icon: Award, label: 'Banners' },

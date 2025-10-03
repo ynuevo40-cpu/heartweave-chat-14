@@ -1,27 +1,53 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Heart, Send, Trash2, Clock, AlertTriangle, ArrowLeft, Menu, Smile } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Heart, Send, Trash2, Clock, AlertTriangle, ArrowLeft, Menu, Smile, Users } from 'lucide-react';
 import { UserAvatar } from '@/components/UserAvatar';
 import { BannerBadge } from '@/components/BannerBadge';
 import { AppLayout } from '@/components/layouts/AppLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { useChat } from '@/hooks/useChat';
+import { useCommunities } from '@/hooks/useCommunities';
+import { useModeration } from '@/hooks/useModeration';
+import { BannedUserScreen } from '@/components/BannedUserScreen';
 import { useActivityRewards } from '@/hooks/useActivityRewards';
 import { toast } from 'sonner';
 
 export default function Chat() {
+  const [searchParams] = useSearchParams();
+  const communityId = searchParams.get('community');
   const [newMessage, setNewMessage] = useState('');
   const [countdown, setCountdown] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [selectedCommunity, setSelectedCommunity] = useState<string | null>(communityId);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { messages, loading, sendMessage, giveHeart, deleteMessage, clearAllMessages } = useChat();
+  const { messages, loading, sendMessage, giveHeart, deleteMessage, clearAllMessages } = useChat(selectedCommunity);
+  const { communities } = useCommunities();
+  const { checkBanStatus } = useModeration();
   const { giveActivityReward } = useActivityRewards();
+  const [isBanned, setIsBanned] = useState(false);
+  const [bannedUntil, setBannedUntil] = useState<string | null>(null);
+
+  // Verificar estado de baneo al cargar
+  useEffect(() => {
+    if (user) {
+      checkBanStatus(user.id).then((status) => {
+        setIsBanned(status.isBanned);
+        setBannedUntil(status.bannedUntil || null);
+      });
+    }
+  }, [user]);
+
+  // Sincronizar selectedCommunity con URL
+  useEffect(() => {
+    setSelectedCommunity(communityId);
+  }, [communityId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -129,9 +155,19 @@ export default function Chat() {
     e.preventDefault();
     if (!newMessage.trim()) return;
     
-    await sendMessage(newMessage);
-    giveActivityReward('first_message');
-    setNewMessage('');
+    const result = await sendMessage(newMessage);
+    if (result?.success) {
+      giveActivityReward('first_message');
+      setNewMessage('');
+    } else if (result?.banned) {
+      // Usuario fue baneado - recargar estado
+      if (user) {
+        const banStatus = await checkBanStatus(user.id);
+        setIsBanned(banStatus.isBanned);
+        setBannedUntil(banStatus.bannedUntil || null);
+      }
+    }
+  };
   };
 
   const handleGiveHeart = async (userId: string) => {

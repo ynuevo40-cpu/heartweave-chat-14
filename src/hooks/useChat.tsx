@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import { messageService } from '@/services/messageService';
 import { heartService } from '@/services/heartService';
+import { useModeration } from '@/hooks/useModeration';
 
 export interface Message {
   id: string;
@@ -25,10 +26,11 @@ export interface Message {
   }>;
 }
 
-export const useChat = () => {
+export const useChat = (communityId?: string | null) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const { checkMessage } = useModeration();
 
   useEffect(() => {
     fetchMessages();
@@ -58,13 +60,33 @@ export const useChat = () => {
 
   const fetchMessages = async () => {
     try {
-      const result = await messageService.fetchMessages();
-      
-      if (result.success) {
-        setMessages(result.data || []);
+      let query = supabase
+        .from('messages')
+        .select(`
+          *,
+          profile:profiles!messages_user_id_fkey(
+            username,
+            avatar_url,
+            hearts_count
+          ),
+          equipped_banners(
+            position,
+            banner:banners(name, emoji, rarity)
+          )
+        `)
+        .order('created_at', { ascending: true });
+
+      // Filtrar por comunidad si se proporciona
+      if (communityId) {
+        query = query.eq('community_id', communityId);
       } else {
-        toast.error(result.error || 'Error al cargar mensajes');
+        query = query.is('community_id', null);
       }
+
+      const { data, error } = await query;
+      
+      if (error) throw error;
+      setMessages(data || []);
     } catch (error: any) {
       console.error('Error fetching messages:', error);
       toast.error('Error al cargar mensajes');
@@ -86,20 +108,32 @@ export const useChat = () => {
   };
 
   const sendMessage = async (content: string) => {
-    if (!user || !content.trim()) return;
+    if (!user || !content.trim()) return { success: false };
 
     try {
-      const result = await messageService.createMessage({
-        content,
-        userId: user.id
-      });
-
-      if (!result.success) {
-        toast.error(result.error || 'Error al enviar mensaje');
+      // Verificar moderación primero
+      const moderationResult = await checkMessage(content, user.id);
+      
+      if (!moderationResult.allowed) {
+        return { success: false, banned: moderationResult.action === 'banned' };
       }
+
+      // Si pasa la moderación, enviar mensaje
+      const { error } = await supabase
+        .from('messages')
+        .insert({
+          content: content.trim(),
+          user_id: user.id,
+          community_id: communityId || null
+        });
+
+      if (error) throw error;
+      
+      return { success: true };
     } catch (error: any) {
       console.error('Error sending message:', error);
       toast.error('Error al enviar mensaje');
+      return { success: false };
     }
   };
 
