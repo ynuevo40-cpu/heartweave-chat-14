@@ -1,4 +1,0 @@
-project_id = "rcenpdfsstzgvvmcmymi"
-
-[functions.moderate-message]
-verify_jwt = true

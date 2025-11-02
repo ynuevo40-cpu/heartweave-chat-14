@@ -1,51 +1,40 @@
-# 🚀 Proyecto H Chat  
+# Welcome to your Lovable project
 
-## 📌 Información del proyecto  
+## Project info
 
-**URL del proyecto en línea**: [🌍 H Chat](https://h-chat-21.netlify.app/)  
-**Repositorio en Lovable**: [🔗 Ver en Lovable](https://lovable.dev/projects/cb82e7a6-8a22-4503-9673-a67ae0332578)  
+**URL**: https://lovable.dev/projects/526b33a7-985d-4c56-a922-c5f0e35948a9
 
-Este proyecto fue creado y personalizado por **Heider Gonzalez** como parte de mi proceso de aprendizaje en **Ingeniería Informática**.  
-Mi objetivo es aplicar mis conocimientos en **desarrollo web, frontend y bakend** para construir aplicaciones modernas y funcionales a mano de mi creatividad.  
+## How can I edit this code?
 
----
+There are several ways of editing your application.
 
-## ⚙️ Tecnologías utilizadas  
+**Use Lovable**
 
-- ⚡ **Vite** → Para un entorno de desarrollo rápido y eficiente.  
-- ⚛️ **React + TypeScript** → Creación de interfaces dinámicas y tipadas.  
-- 🎨 **Tailwind CSS** → Estilos modernos y personalizados.  
-- 🧩 **shadcn/ui** → Componentes reutilizables y elegantes.  
+Simply visit the [Lovable Project](https://lovable.dev/projects/526b33a7-985d-4c56-a922-c5f0e35948a9) and start prompting.
 
----
+Changes made via Lovable will be committed automatically to this repo.
 
-🚀 Despliegue
+**Use your preferred IDE**
 
-Este proyecto está publicado en Netlify:
-👉 H Chat en Netlify
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-👤 Autor
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Heider Gonzalez
-📧 heider.gonzalez16@gmail.com
-
-💼 Estudiante de Ingeniería Informática – Corporación Universitaria Reformada
-🏆 Creativo, entusiasta del desarrollo y la tecnología.
-## 💻 Cómo ejecutar el proyecto en local  
+Follow these steps:
 
 ```sh
-# 1. Clonar el repositorio
-git clone <TU_GIT_URL>
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-# 2. Entrar a la carpeta del proyecto
-cd <NOMBRE_DEL_PROYECTO>
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-# 3. Instalar dependencias
-npm install
+# Step 3: Install the necessary dependencies.
+npm i
 
-# 4. Ejecutar en modo desarrollo
+# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
-
+```
 
 **Edit a file directly in GitHub**
 
@@ -73,7 +62,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/cb82e7a6-8a22-4503-9673-a67ae0332578) and click on Share -> Publish.
+Simply open [Lovable](https://lovable.dev/projects/526b33a7-985d-4c56-a922-c5f0e35948a9) and click on Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
@@ -81,4 +70,4 @@ Yes, you can!
 
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
