@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { ImagePlus, Video, X } from "lucide-react";
+import { usePosts } from "@/hooks/usePosts";
 
 interface CreateTextPostFormProps {
   onClose: () => void;
@@ -13,10 +13,13 @@ const CreateTextPostForm = ({ onClose }: CreateTextPostFormProps) => {
   const [content, setContent] = useState("");
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const { createPost, loading } = usePosts();
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>, type: "image" | "video") => {
     const file = e.target.files?.[0];
     if (file) {
+      setMediaFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setMediaPreview(reader.result as string);
@@ -26,16 +29,20 @@ const CreateTextPostForm = ({ onClose }: CreateTextPostFormProps) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!content.trim()) {
-      toast.error("Por favor escribe algo");
-      return;
-    }
+    if (!content.trim()) return;
 
-    toast.success("¡Publicación creada exitosamente!");
-    onClose();
+    const { error } = await createPost({
+      content,
+      post_type: "text",
+      media_file: mediaFile || undefined,
+    });
+
+    if (!error) {
+      onClose();
+    }
   };
 
   return (
@@ -72,6 +79,7 @@ const CreateTextPostForm = ({ onClose }: CreateTextPostFormProps) => {
             onClick={() => {
               setMediaPreview(null);
               setMediaType(null);
+              setMediaFile(null);
             }}
             className="absolute top-2 right-2 p-1.5 bg-black/60 backdrop-blur-sm rounded-full text-white hover:bg-black/80 transition-colors shadow-lg"
           >
@@ -116,8 +124,12 @@ const CreateTextPostForm = ({ onClose }: CreateTextPostFormProps) => {
         <Button type="button" variant="outline" onClick={onClose}>
           Cancelar
         </Button>
-        <Button type="submit" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
-          Publicar
+        <Button 
+          type="submit" 
+          disabled={loading || !content.trim()}
+          className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+        >
+          {loading ? "Publicando..." : "Publicar"}
         </Button>
       </div>
     </form>
